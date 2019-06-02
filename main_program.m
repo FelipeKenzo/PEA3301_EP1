@@ -1,6 +1,6 @@
 function [retval] = main_program (TOP, CAR, VOL)
   
-  %Montagem da matriz de admitancias primitivas
+  %-----Montagem da matriz de admitancias primitivas-----%
   distancia = 0;
   Ypr = zeros(rows(TOP) , rows(TOP));
   
@@ -20,6 +20,30 @@ function [retval] = main_program (TOP, CAR, VOL)
      %Não existem mútuas entre os ramos
      Ypr(i,i) = matrizAd;     
   end;
+  
+  %-----Montagem da matriz de incidências Q-----%
+  
+  countNos = 35;
+  countRamos = rows(TOP);
+  um = eye(3);
+  zero = zeroes(3);
+  
+  Q = zeroes(countRamos, countNos);
+  
+  for(i = 1:countRamos)  
+    Q( i , TOP(i,1)/10) = um;
+    Q( i , TOP(i,2)/10) = -1 * um;  
+  end;
+  
+  for(i = 1:countRamos)
+    for(j = 1:countNos)
+      if((Q(i,j) != um ) || Q(i,j) != -1 * um)
+        Q(i,j) = zero;
+      end;
+    end;
+  end;
+  
+ 
   
   
 
